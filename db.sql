@@ -12,7 +12,7 @@ CREATE TABLE Farmers (
     county           VARCHAR(100),
     farm_location    VARCHAR(255),
     farm_name        VARCHAR(100),
-    registration_date DATE NOT NULL DEFAULT CURRENT_DATE
+    registration_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
 
 -- ======================
@@ -29,7 +29,7 @@ CREATE TABLE Animal (
     source            ENUM('Birth','Purchase') NOT NULL,
     status            ENUM('Alive','Dead','Sold') NOT NULL DEFAULT 'Alive',
     FOREIGN KEY (owner_id) REFERENCES Farmers(farmer_id)
-        ON DELETE SET NULL,
+        ON DELETE SET NULL
 
 );
 
@@ -271,7 +271,7 @@ INSERT INTO Expenses (expense_date, expense_type, description, amount, farmer_id
 -- ======================
 INSERT INTO Losses (animal_id, loss_type, date, notes) VALUES
 ('A004', 'Death', '2022-05-10', 'Died due to pneumonia'),
-('A006', 'Theft', '2021-11-15', 'Stolen from grazing field'),
+('A006', 'Theft', '2021-11-15', 'Stolen from grazing field')
 
 
 -- ======================
