@@ -5,12 +5,14 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
+  margin: 120px auto;
 }
 
 .form-container h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
+  font-size: 25px;
 }
 
 .form-group {
@@ -35,14 +37,14 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #4a90e2;
+  border-color: var(--primary);
   box-shadow: 0 0 4px rgba(74, 144, 226, 0.3);
 }
 
 button {
   width: 100%;
   padding: 12px;
-  background: #4a90e2;
+  background: var(--primary);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -52,7 +54,7 @@ button {
 }
 
 button:hover {
-  background: #357abd;
+  background: var(--secondary);
 }
 
 .extra-links {
@@ -62,7 +64,7 @@ button:hover {
 }
 
 .extra-links a {
-  color: #4a90e2;
+  color: var(--primary);
   text-decoration: none;
 }
 

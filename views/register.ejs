@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="register.css" />
   </head>
   <body>
+    <%- include("_header.ejs") %>
     <div class="form-container">
       <h2>Farmer Registration</h2>
-      <form action="/register" method="POST">
+      <form action="http://localhost:3000/register" method="POST">
         <div class="form-group">
           <label for="fullname">Full Name</label>
           <input
@@ -72,5 +73,7 @@
         <button type="submit">Register</button>
       </form>
     </div>
+
+    <%- include("_footer.ejs") %>
   </body>
 </html>
