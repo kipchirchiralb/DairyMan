@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmer Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <nav class="top-nav">
+      <h1>
+        Welcome Mkulima <%= locals.farmer ? locals.farmer.fullname : "Guest" %>
+      </h1>
+      <a href="/logout">Logout</a>
+    </nav>
+    <main>
+      <nav class="left-side-nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/animal-profiles">Animal Profiles</a>
+        <a href="/milk-production">Production Records </a>
+        <a href="/expenses">Expenses</a>
+        <a href="/vaccination">Vaccination</a>
+        <a href="/medication">Medication</a>
+        <a href="/feed-consumption">Feed Consumption</a>
+        <a href="/farmer-profile">Farmer Profile</a>
+        <a href="/settings">Settings</a>
+      </nav>
+      <section class="main-content">
+        <h2>Dashboard</h2>
+        <p>
+          This is the farmer dashboard where you can manage your farm activities
+          and see summaries.
+        </p>
+        <p>Graphs here later</p>
+      </section>
+    </main>
+  </body>
+</html>

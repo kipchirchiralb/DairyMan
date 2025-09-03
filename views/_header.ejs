@@ -16,3 +16,15 @@
     </nav>
   </div>
 </header>
+
+<% if(locals.message){ %>
+    <div class="alert">
+      <p><%= locals.message %></p>
+      <button class="close-alert">X</button>
+    </div>
+      <script>
+      document.querySelector('.close-alert').addEventListener('click', function() {
+        this.parentElement.style.display = 'none';
+      });
+    </script>
+<% }%>

@@ -28,6 +28,28 @@ body {
   padding: 0 20px;
 }
 
+.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1001;
+  max-width: 300px;
+  display: flex;
+  align-items: start;
+}
+.close-alert {
+  width: max-content;
+  background-color: #721c24;
+  color: white;
+  padding: 12px;
+}
+
 section {
   padding: 80px 0;
 }
