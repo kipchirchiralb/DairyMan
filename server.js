@@ -12,6 +12,7 @@ const dbConn = mysql.createConnection({
 const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(13);
 const session = require("express-session");
+const sqlQueries = require("./sqlStatement.js");
 
 dbConn.query(
   "SELECT * FROM farmers where email = ?",
@@ -37,6 +38,8 @@ app.use((req, res, next) => {
   if (protectedRoutes.includes(req.path)) {
     // check if user is logged in
     if (req.session && req.session.farmer) {
+      console.log(req.session.farmer);
+
       res.locals.farmer = req.session.farmer;
       next();
     } else {
@@ -122,6 +125,12 @@ app.post("/login", (req, res) => {
 
 // Dashboard route
 app.get("/dashboard", (req, res) => {
+  dbConn.query(
+    sqlQueries.getProductionRecordsForFarmer(req.session.farmer.farmer_id),
+    (sqlErr, data) => {
+      console.log(data);
+    }
+  );
   res.render("dashboard.ejs");
 });
 

@@ -293,3 +293,14 @@ INSERT INTO FeedConsumption (animalfed, quantity, type, cost, date) VALUES
 ('A009', 12.5, 'Hay', 700.00, '2023-08-02 10:00:00'),
 ('A011', 14.0, 'Napier Grass', 700.00, '2023-08-02 10:30:00'),
 ('A013', 10.0, 'Molasses', 500.00, '2023-08-02 11:00:00');
+
+
+
+-- get all milk production records for a farmer
+
+SELECT MilkProduction.*, Animal.name as animal_name, Animal.animal_tag, Farmer.farm_name
+FROM MilkProduction 
+JOIN Animal  ON MilkProduction.animal_id = Animal.animal_tag
+JOIN Farmers ON Animal.owner_id = Farmer.farmer_id
+WHERE Farmer.farmer_id = 5
+ORDER BY MilkProduction.production_date DESC, MilkProduction.production_time DESC;
