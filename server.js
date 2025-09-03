@@ -11,6 +11,7 @@ const dbConn = mysql.createConnection({
 });
 const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(13);
+const session = require("express-session");
 
 dbConn.query(
   "SELECT * FROM farmers where email = ?",
@@ -23,9 +24,31 @@ dbConn.query(
 // middleware
 app.use(express.static(path.join(__dirname, "public"))); // static files will be served from the 'public' directory/folder
 app.use(express.urlencoded({ extended: true })); // body parser to decrypt incoming data to req.body
+app.use(
+  session({
+    secret: "ojfsklfsmkfsmfsjfskjkfsjfkjkfjs",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+// authorization middleware
+const protectedRoutes = ["/dashboard", "/expenses"];
+app.use((req, res, next) => {
+  if (protectedRoutes.includes(req.path)) {
+    // check if user is logged in
+    if (req.session && req.session.farmer) {
+      res.locals.farmer = req.session.farmer;
+      next();
+    } else {
+      res.redirect("/login?message=unauthorized");
+    }
+  } else {
+    next();
+  }
+});
 
+// root route/landing page/index route
 app.get("/", (req, res) => {
-  // root route/landing page/index route
   res.render("index.ejs");
 });
 // Authentication routes
@@ -41,6 +64,8 @@ app.get("/login", (req, res) => {
     res.locals.message = "Registration successful. Please login.";
   } else if (message === "invalid") {
     res.locals.message = "Invalid email or password. Try again";
+  } else if (message === "unauthorized") {
+    res.locals.message = "Your are unauthorized to access that page.";
   }
   res.render("login.ejs");
 });
@@ -74,7 +99,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   console.log(req.body);
   const { email, password } = req.body;
-  const checkEmailStatement = `SELECT email,fullname,password FROM farmers WHERE email="${email}"`;
+  const checkEmailStatement = `SELECT farmer_id,email,fullname,password FROM farmers WHERE email="${email}"`;
   dbConn.query(checkEmailStatement, (sqlErr, data) => {
     if (sqlErr) return res.status(500).send("Server Error");
     if (data.length === 0) {
@@ -85,6 +110,7 @@ app.post("/login", (req, res) => {
       const passwordMatch = bcrypt.compareSync(password, user.password); // bcrypt to compare hashed passwords
       if (passwordMatch) {
         // create a session and redirect to dashboard
+        req.session.farmer = user; // setting session for a farmer - a cookie is set in the req/browser
         res.redirect("/dashboard");
       } else {
         res.redirect("/login?message=invalid");
