@@ -296,11 +296,3 @@ INSERT INTO FeedConsumption (animalfed, quantity, type, cost, date) VALUES
 
 
 
--- get all milk production records for a farmer
-
-SELECT MilkProduction.*, Animal.name as animal_name, Animal.animal_tag, Farmer.farm_name
-FROM MilkProduction 
-JOIN Animal  ON MilkProduction.animal_id = Animal.animal_tag
-JOIN Farmers ON Animal.owner_id = Farmer.farmer_id
-WHERE Farmer.farmer_id = 5
-ORDER BY MilkProduction.production_date DESC, MilkProduction.production_time DESC;

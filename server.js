@@ -134,6 +134,11 @@ app.get("/dashboard", (req, res) => {
   res.render("dashboard.ejs");
 });
 
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
