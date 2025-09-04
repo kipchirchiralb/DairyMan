@@ -31,12 +31,15 @@ function groupAndExtractLatest(records) {
     const latest15 = combined.slice(0, 15);
 
     // Rebuild arrays
-    grouped[tag].production_dates = latest15.map(item => item.date.toISOString());
+    grouped[tag].production_dates = latest15.map(item => item.date.toLocaleDateString());
     grouped[tag].total_daily_productions = latest15.map(item => item.production);
   }
 
   return grouped;
 }
+
+
+
 
 
 module.exports = {groupAndExtractLatest}

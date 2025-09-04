@@ -15,14 +15,6 @@ const session = require("express-session");
 const sqlQueries = require("./sqlStatement.js");
 const utils = require("./utils.js");
 
-dbConn.query(
-  "SELECT * FROM farmers where email = ?",
-  ["john@yahoon.com"],
-  (err, results) => {
-    console.log(results.length);
-  }
-);
-
 // middleware
 app.use(express.static(path.join(__dirname, "public"))); // static files will be served from the 'public' directory/folder
 app.use(express.urlencoded({ extended: true })); // body parser to decrypt incoming data to req.body
@@ -129,8 +121,9 @@ app.get("/dashboard", (req, res) => {
   dbConn.query(
     sqlQueries.getProductionRecordsForFarmer(req.session.farmer.farmer_id),
     (sqlErr, data) => {
+      if (sqlErr) return res.status(500).send("Server Error!");
       const groupedData = utils.groupAndExtractLatest(data);
-      res.render("dashboard.ejs");
+      res.render("dashboard.ejs", { groupedData });
     }
   );
 });

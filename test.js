@@ -6,7 +6,7 @@ function groupAndExtractLatest(records) {
       acc[tag] = {
         animal_name: record.animal_name,
         production_dates: [],
-        total_daily_productions: []
+        total_daily_productions: [],
       };
     }
 
@@ -21,7 +21,7 @@ function groupAndExtractLatest(records) {
     // Combine dates and productions into one array for sorting
     const combined = grouped[tag].production_dates.map((date, i) => ({
       date,
-      production: grouped[tag].total_daily_productions[i]
+      production: grouped[tag].total_daily_productions[i],
     }));
 
     // Sort descending by date
@@ -31,8 +31,12 @@ function groupAndExtractLatest(records) {
     const latest15 = combined.slice(0, 15);
 
     // Rebuild arrays
-    grouped[tag].production_dates = latest15.map(item => item.date.toISOString());
-    grouped[tag].total_daily_productions = latest15.map(item => item.production);
+    grouped[tag].production_dates = latest15.map((item) =>
+      item.date.toLocaleDateString()
+    );
+    grouped[tag].total_daily_productions = latest15.map(
+      (item) => item.production
+    );
   }
 
   return grouped;
@@ -41,50 +45,50 @@ function groupAndExtractLatest(records) {
 // Example usage with your data:
 const data = [
   {
-    animal_tag: 'A002',
-    animal_name: 'Pendo',
-    production_date: '2023-08-01T21:00:00.000Z',
+    animal_tag: "A002",
+    animal_name: "Pendo",
+    production_date: "2023-08-01T21:00:00.000Z",
     total_daily_production: 12.7,
     milking_sessions: 1,
-    farm_name: 'Green Pastures',
-    unit: 'Liters'
+    farm_name: "Green Pastures",
+    unit: "Liters",
   },
   {
-    animal_tag: 'A003',
-    animal_name: 'Kadogo',
-    production_date: '2023-08-01T21:00:00.000Z',
+    animal_tag: "A003",
+    animal_name: "Kadogo",
+    production_date: "2023-08-01T21:00:00.000Z",
     total_daily_production: 10,
     milking_sessions: 1,
-    farm_name: 'Green Pastures',
-    unit: 'Liters'
+    farm_name: "Green Pastures",
+    unit: "Liters",
   },
   {
-    animal_tag: 'A005',
-    animal_name: 'Lelmet',
-    production_date: '2023-08-01T21:00:00.000Z',
+    animal_tag: "A005",
+    animal_name: "Lelmet",
+    production_date: "2023-08-01T21:00:00.000Z",
     total_daily_production: 8.5,
     milking_sessions: 1,
-    farm_name: 'Green Pastures',
-    unit: 'Liters'
+    farm_name: "Green Pastures",
+    unit: "Liters",
   },
   {
-    animal_tag: 'A003',
-    animal_name: 'Kadogo',
-    production_date: '2023-07-31T21:00:00.000Z',
+    animal_tag: "A003",
+    animal_name: "Kadogo",
+    production_date: "2023-07-31T21:00:00.000Z",
     total_daily_production: 22.7,
     milking_sessions: 2,
-    farm_name: 'Green Pastures',
-    unit: 'Liters'
+    farm_name: "Green Pastures",
+    unit: "Liters",
   },
   {
-    animal_tag: 'A005',
-    animal_name: 'Lelmet',
-    production_date: '2023-07-31T21:00:00.000Z',
+    animal_tag: "A005",
+    animal_name: "Lelmet",
+    production_date: "2023-07-31T21:00:00.000Z",
     total_daily_production: 8.7,
     milking_sessions: 1,
-    farm_name: 'Green Pastures',
-    unit: 'Liters'
-  }
+    farm_name: "Green Pastures",
+    unit: "Liters",
+  },
 ];
 
 console.log(groupAndExtractLatest(data));

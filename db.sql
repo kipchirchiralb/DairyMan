@@ -312,3 +312,44 @@ WHERE Farmers.farmer_id = 1
 GROUP BY Animal.animal_tag, Animal.name, MilkProduction.production_date, Farmers.farm_name, MilkProduction.unit
 ORDER BY MilkProduction.production_date DESC;
 
+
+
+-- more porduction records
+
+-- Insert 30 milk production records for John's animals
+INSERT INTO MilkProduction (animal_id, production_date, production_time, quantity, quality, unit) VALUES
+-- Records for A002 (Pendo)
+('A002', '2023-09-01', '06:00:00', 12.3, 'High', 'Liters'),
+('A002', '2023-09-01', '18:00:00', 11.8, 'High', 'Liters'),
+('A002', '2023-09-02', '06:00:00', 12.5, 'High', 'Liters'),
+('A002', '2023-09-02', '18:00:00', 12.0, 'High', 'Liters'),
+('A002', '2023-09-03', '06:00:00', 12.1, 'Medium', 'Liters'),
+('A002', '2023-09-03', '18:00:00', 11.9, 'High', 'Liters'),
+('A002', '2023-09-04', '06:00:00', 12.6, 'High', 'Liters'),
+('A002', '2023-09-04', '18:00:00', 12.2, 'High', 'Liters'),
+('A002', '2023-09-05', '06:00:00', 12.4, 'High', 'Liters'),
+('A002', '2023-09-05', '18:00:00', 12.1, 'Medium', 'Liters'),
+
+-- Records for A003 (Kadogo)
+('A003', '2023-09-01', '06:30:00', 9.8, 'Medium', 'Liters'),
+('A003', '2023-09-01', '18:30:00', 9.5, 'Medium', 'Liters'),
+('A003', '2023-09-02', '06:30:00', 10.0, 'High', 'Liters'),
+('A003', '2023-09-02', '18:30:00', 9.7, 'Medium', 'Liters'),
+('A003', '2023-09-03', '06:30:00', 9.9, 'High', 'Liters'),
+('A003', '2023-09-03', '18:30:00', 9.4, 'Medium', 'Liters'),
+('A003', '2023-09-04', '06:30:00', 10.2, 'High', 'Liters'),
+('A003', '2023-09-04', '18:30:00', 9.8, 'High', 'Liters'),
+('A003', '2023-09-05', '06:30:00', 9.6, 'Medium', 'Liters'),
+('A003', '2023-09-05', '18:30:00', 9.3, 'Medium', 'Liters'),
+
+-- Records for A005 (Lelmet)
+('A005', '2023-09-01', '07:00:00', 8.2, 'High', 'Liters'),
+('A005', '2023-09-01', '19:00:00', 8.0, 'High', 'Liters'),
+('A005', '2023-09-02', '07:00:00', 8.5, 'Medium', 'Liters'),
+('A005', '2023-09-02', '19:00:00', 8.1, 'High', 'Liters'),
+('A005', '2023-09-03', '07:00:00', 8.4, 'High', 'Liters'),
+('A005', '2023-09-03', '19:00:00', 8.0, 'Medium', 'Liters'),
+('A005', '2023-09-04', '07:00:00', 8.6, 'High', 'Liters'),
+('A005', '2023-09-04', '19:00:00', 3.3, 'Medium', 'Liters'),
+('A005', '2023-09-05', '07:00:00', 4.7, 'High', 'Liters'),
+('A005', '2023-09-05', '19:00:00', 8.2, 'High', 'Liters');
