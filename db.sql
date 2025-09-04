@@ -295,4 +295,20 @@ INSERT INTO FeedConsumption (animalfed, quantity, type, cost, date) VALUES
 ('A013', 10.0, 'Molasses', 500.00, '2023-08-02 11:00:00');
 
 
+--  fetch all milk production records for a farmer
+
+SELECT 
+    Animal.animal_tag,
+    Animal.name as animal_name,
+    MilkProduction.production_date,
+    SUM(MilkProduction.quantity) as total_daily_production,
+    COUNT(*) as milking_sessions,
+    Farmers.farm_name,
+    MilkProduction.unit
+FROM MilkProduction 
+JOIN Animal ON MilkProduction.animal_id = Animal.animal_tag
+JOIN Farmers ON Animal.owner_id = Farmers.farmer_id
+WHERE Farmers.farmer_id = 1
+GROUP BY Animal.animal_tag, Animal.name, MilkProduction.production_date, Farmers.farm_name, MilkProduction.unit
+ORDER BY MilkProduction.production_date DESC;
 

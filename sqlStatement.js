@@ -1,5 +1,6 @@
 function getProductionRecordsForFarmer(farmer_id) {
-  return `SELECT 
+  return `
+  SELECT 
     Animal.animal_tag,
     Animal.name as animal_name,
     MilkProduction.production_date,

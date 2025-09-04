@@ -13,6 +13,7 @@ const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(13);
 const session = require("express-session");
 const sqlQueries = require("./sqlStatement.js");
+const utils = require("./utils.js");
 
 dbConn.query(
   "SELECT * FROM farmers where email = ?",
@@ -128,10 +129,10 @@ app.get("/dashboard", (req, res) => {
   dbConn.query(
     sqlQueries.getProductionRecordsForFarmer(req.session.farmer.farmer_id),
     (sqlErr, data) => {
-      console.log(data);
+      const groupedData = utils.groupAndExtractLatest(data);
+      res.render("dashboard.ejs");
     }
   );
-  res.render("dashboard.ejs");
 });
 
 app.get("/logout", (req, res) => {
