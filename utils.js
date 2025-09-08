@@ -6,7 +6,7 @@ function groupAndExtractLatest(records) {
       acc[tag] = {
         animal_name: record.animal_name,
         production_dates: [],
-        total_daily_productions: []
+        total_daily_productions: [],
       };
     }
 
@@ -21,7 +21,7 @@ function groupAndExtractLatest(records) {
     // Combine dates and productions into one array for sorting
     const combined = grouped[tag].production_dates.map((date, i) => ({
       date,
-      production: grouped[tag].total_daily_productions[i]
+      production: grouped[tag].total_daily_productions[i],
     }));
 
     // Sort descending by date
@@ -31,15 +31,25 @@ function groupAndExtractLatest(records) {
     const latest15 = combined.slice(0, 15);
 
     // Rebuild arrays
-    grouped[tag].production_dates = latest15.map(item => item.date.toLocaleDateString());
-    grouped[tag].total_daily_productions = latest15.map(item => item.production);
+    grouped[tag].production_dates = latest15.map((item) =>
+      item.date.toLocaleDateString()
+    );
+    grouped[tag].total_daily_productions = latest15.map(
+      (item) => item.production
+    );
   }
 
   return grouped;
 }
 
+function getChartData(animals) {
+  const xValues = [];
+  const yValues = [];
+  animals.forEach((animal) => {
+    xValues.push(animal.animal_name + "-" + animal.animal_tag);
+    yValues.push(animal.total_production);
+  });
+  return [xValues, yValues];
+}
 
-
-
-
-module.exports = {groupAndExtractLatest}
+module.exports = { groupAndExtractLatest, getChartData };

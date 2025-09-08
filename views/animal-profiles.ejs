@@ -1,22 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Animal Profiles Dashboard</title>
-     <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="dashboard.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <%- include("_dashheader.ejs")%>
     <main>
-        <%- include("_dashnav.ejs")%>
-        <section class="main-content">
-            <h2>Per animal Production Chart</h2>
-            <div class="animals-info">
-                <%- %>
-            </div>
-        </section> 
+      <%- include("_dashnav.ejs")%>
+      <section class="main-content">
+        <h2>Per animal Production Chart</h2>
+        <button class="btn">Add New Animal</button>
+        <canvas id="myChart" style="width: 100%; max-width: 600px"></canvas>
+
+        <script>
+          const xValues = <%- JSON.stringify(animals[0]) %>
+          const yValues = <%= JSON.stringify(animals[1]) %>
+          const barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+
+          ];
+
+          new Chart("myChart", {
+            type: "pie",
+            data: {
+              labels: xValues,
+              datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: "Per animal Production Chart"
+              }
+            }
+          });
+        </script>
+
+        <div class="animals-info"></div>
+      </section>
     </main>
-</body>
+  </body>
 </html>

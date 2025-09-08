@@ -131,12 +131,18 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/animal-profiles", (req, res) => {
-  dbConn.query(sqlQueries.getAnimalsProductionsForFarmer(req.session.farmer.farmer_id), (sqlErr, animals) => {
-    if (sqlErr) return res.status(500).send("Server Error!" + sqlErr);
-    res.render("animal-profiles.ejs", { animals });
-  })
-})
+  dbConn.query(
+    sqlQueries.getAnimalsProductionsForFarmer(req.session.farmer.farmer_id),
+    (sqlErr, animals) => {
+      if (sqlErr) return res.status(500).send("Server Error!" + sqlErr);
+      console.log(utils.getChartData(animals));
 
+      res.render("animal-profiles.ejs", {
+        animals: utils.getChartData(animals),
+      });
+    }
+  );
+});
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
