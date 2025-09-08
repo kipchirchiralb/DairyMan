@@ -131,7 +131,7 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/animal-profiles", (req, res) => {
-  dbConn.query(`SELECT * FROM animal WHERE owner_id = ${req.session.farmer.farmer_id} `, (sqlErr, animals) => {
+  dbConn.query(sqlQueries.getAnimalsProductionsForFarmer(req.session.farmer.farmer_id), (sqlErr, animals) => {
     if (sqlErr) return res.status(500).send("Server Error!" + sqlErr);
     res.render("animal-profiles.ejs", { animals });
   })

@@ -16,6 +16,23 @@ GROUP BY Animal.animal_tag, Animal.name, MilkProduction.production_date, Farmers
 ORDER BY MilkProduction.production_date DESC, total_daily_production DESC;`;
 }
 
+function getAnimalsProductionsForFarmer(farmer_id) {
+  return `SELECT 
+    f.farm_name,
+    f.fullname AS farmer_name,
+    a.animal_tag,
+    a.name AS animal_name,
+    SUM(mp.quantity) AS total_production,
+    mp.unit
+FROM Farmers f
+JOIN Animal a ON f.farmer_id = a.owner_id
+JOIN MilkProduction mp ON a.animal_tag = mp.animal_id
+WHERE f.farmer_id = ${farmer_id}
+GROUP BY f.farm_name, f.fullname, a.animal_tag, a.name, mp.unit
+`;
+}
 
-
-module.exports = { getProductionRecordsForFarmer };
+module.exports = {
+  getProductionRecordsForFarmer,
+  getAnimalsProductionsForFarmer,
+};
