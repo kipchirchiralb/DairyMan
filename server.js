@@ -26,7 +26,7 @@ app.use(
   })
 );
 // authorization middleware
-const protectedRoutes = ["/dashboard", "/expenses"];
+const protectedRoutes = ["/dashboard", "/expenses", "/animal-profiles"];
 app.use((req, res, next) => {
   if (protectedRoutes.includes(req.path)) {
     // check if user is logged in
@@ -116,17 +116,27 @@ app.post("/login", (req, res) => {
 });
 // console.log(bcrypt.hashSync("john123", salt));
 
+console.log(sqlQueries.getProductionRecordsForFarmer(4));
+
 // Dashboard route
 app.get("/dashboard", (req, res) => {
   dbConn.query(
     sqlQueries.getProductionRecordsForFarmer(req.session.farmer.farmer_id),
     (sqlErr, data) => {
-      if (sqlErr) return res.status(500).send("Server Error!");
+      if (sqlErr) return res.status(500).send("Server Error!" + sqlErr);
       const groupedData = utils.groupAndExtractLatest(data);
       res.render("dashboard.ejs", { groupedData });
     }
   );
 });
+
+app.get("/animal-profiles", (req, res) => {
+  dbConn.query(`SELECT * FROM animal WHERE owner_id = ${req.session.farmer.farmer_id} `, (sqlErr, animals) => {
+    if (sqlErr) return res.status(500).send("Server Error!" + sqlErr);
+    res.render("animal-profiles.ejs", { animals });
+  })
+})
+
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
