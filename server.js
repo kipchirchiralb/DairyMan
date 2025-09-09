@@ -26,7 +26,12 @@ app.use(
   })
 );
 // authorization middleware
-const protectedRoutes = ["/dashboard", "/expenses", "/animal-profiles"];
+const protectedRoutes = [
+  "/dashboard",
+  "/expenses",
+  "/animal-profiles",
+  "/new-animal",
+];
 app.use((req, res, next) => {
   if (protectedRoutes.includes(req.path)) {
     // check if user is logged in
@@ -137,11 +142,36 @@ app.get("/animal-profiles", (req, res) => {
       if (sqlErr) return res.status(500).send("Server Error!" + sqlErr);
       console.log(utils.getChartData(animals));
 
-      res.render("animal-profiles.ejs", {
-        animals: utils.getChartData(animals),
-      });
+      dbConn.query(
+        `select * from animal WHERE owner_id=${req.session.farmer.farmer_id}`,
+        (err, allAnimalsForFarmer) => {
+          res.render("animal-profiles.ejs", {
+            animals: utils.getChartData(animals),
+            allAnimalsForFarmer,
+          });
+        }
+      );
     }
   );
+});
+
+app.post("/new-animal", (req, res) => {
+  let { animal_tag, dob, purchase_date, breed, name, source, gender, status } =
+    req.body;
+  purchase_date.length == 0
+    ? (purchase_date = "2000-01-01")
+    : (purchase_date = purchase_date);
+  console.log(req.body);
+
+  const insertAnimalStatement = `INSERT INTO animal(animal_tag,name,dob,purchase_date,breed,status,source,gender,owner_id) VALUES("${animal_tag}","${name}","${dob}","${purchase_date}","${breed}","${status}","${source}","${gender}", ${req.session.farmer.farmer_id})`;
+
+  dbConn.query(insertAnimalStatement, (sqlErr) => {
+    if (sqlErr) {
+      console.log(sqlErr);
+      return res.status(500).send("Server Error!" + sqlErr);
+    }
+    res.redirect("/animal-profiles");
+  });
 });
 
 app.get("/logout", (req, res) => {
