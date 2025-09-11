@@ -32,6 +32,7 @@ const protectedRoutes = [
   "/animal-profiles",
   "/new-animal",
   "/milk-production",
+  "/add-milk-production",
 ];
 app.use((req, res, next) => {
   if (protectedRoutes.includes(req.path)) {
@@ -156,6 +157,19 @@ app.get("/animal-profiles", (req, res) => {
   );
 });
 
+app.post("/add-milk-production", (req, res) => {
+  let { animal_tag, production_date, production_time, quantity } = req.body;
+
+  const insertProductionStatement = `INSERT INTO milkproduction(animal_id,production_date,production_time,quantity) VALUES("${animal_tag}","${production_date}","${production_time}",${quantity})`;
+  dbConn.query(insertProductionStatement, (sqlErr) => {
+    if (sqlErr) {
+      console.log(sqlErr);
+      return res.status(500).send("Server Error!" + sqlErr);
+    }
+    res.redirect("/milk-production");
+  });
+});
+
 app.post("/new-animal", (req, res) => {
   let { animal_tag, dob, purchase_date, breed, name, source, gender, status } =
     req.body;
@@ -195,6 +209,15 @@ app.get("/milk-production", (req, res) => {
     console.log(productions);
     res.render("milk-production.ejs", { productions });
   });
+});
+
+app.get("/add-milk-production", (req, res) => {
+  dbConn.query(
+    `SELECT animal_tag,name FROM animal WHERE owner_id=${req.session.farmer.farmer_id} AND status = "Alive" AND gender = "Female"`,
+    (sqlErr, animals) => {
+      res.render("add-milk-production.ejs", { animals });
+    }
+  );
 });
 
 app.get("/logout", (req, res) => {
