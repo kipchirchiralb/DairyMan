@@ -31,6 +31,7 @@ const protectedRoutes = [
   "/expenses",
   "/animal-profiles",
   "/new-animal",
+  "/milk-production",
 ];
 app.use((req, res, next) => {
   if (protectedRoutes.includes(req.path)) {
@@ -171,6 +172,28 @@ app.post("/new-animal", (req, res) => {
       return res.status(500).send("Server Error!" + sqlErr);
     }
     res.redirect("/animal-profiles");
+  });
+});
+
+app.get("/milk-production", (req, res) => {
+  const productionQuery = `
+    SELECT 
+        Animal.animal_tag,
+        Animal.name as animal_name,
+        MilkProduction.production_date,
+        MilkProduction.production_time,
+        quantity
+    FROM MilkProduction 
+    JOIN Animal ON MilkProduction.animal_id = Animal.animal_tag
+    JOIN Farmers ON Animal.owner_id = Farmers.farmer_id
+    WHERE Farmers.farmer_id = ${req.session.farmer.farmer_id}
+    ORDER BY MilkProduction.production_date DESC
+    LIMIT 30;`;
+
+  dbConn.query(productionQuery, (sqlErr, productions) => {
+    if (sqlErr) return res.status(500).send("Server Error!" + sqlErr);
+    console.log(productions);
+    res.render("milk-production.ejs", { productions });
   });
 });
 
