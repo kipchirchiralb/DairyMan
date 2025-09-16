@@ -158,9 +158,10 @@ app.get("/animal-profiles", (req, res) => {
 });
 
 app.post("/add-milk-production", (req, res) => {
-  let { animal_tag, production_date, production_time, quantity } = req.body;
-
-  const insertProductionStatement = `INSERT INTO milkproduction(animal_id,production_date,production_time,quantity) VALUES("${animal_tag}","${production_date}","${production_time}",${quantity})`;
+  let {animal_unique_val, production_date, production_time, quantity, quality } =
+    req.body;
+  quality = quality || "High";
+  const insertProductionStatement = `INSERT INTO milkproduction(animal_id,production_date,production_time,quantity,quality) VALUES("${animal_unique_val}","${production_date}","${production_time}",${quantity}, "${quality}")`;
   dbConn.query(insertProductionStatement, (sqlErr) => {
     if (sqlErr) {
       console.log(sqlErr);

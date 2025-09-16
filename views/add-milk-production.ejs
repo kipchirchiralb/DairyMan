@@ -35,7 +35,7 @@
             <form action="/add-milk-production" method="POST" class="form">
                 <div class="form-group">
                     <label for="animal_tag">Select Animal</label>
-                        <select name="animal" id="animal_tag" required>
+                        <select name="animal_unique_val" id="animal_tag" required>
                             <% animals.forEach(animal => { %>
                                 <option value="<%= animal.animal_tag %>"><%= animal.animal_tag %> - <%= animal.name %></option>
                             <% }) %>
