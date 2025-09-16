@@ -49,7 +49,7 @@
 ">
                     <label for="production_time">Time</label>
                     <!-- defualt current time -->
-                    <input type="time" id="production_time" name="production_time" value="<%= new Date().toISOString().slice(11,16) %>" required>
+                    <input type="time" id="production_time" name="production_time" value="" required>
                 </div>
                 <div class="form-group
 ">
@@ -65,5 +65,16 @@
                 
         </section>
     </main>
+
+    <script>
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `${hours}:${minutes}`;
+            }
+
+    document.getElementById('production_time').value = getCurrentTime();
+    </script>
 </body>
 </html>
