@@ -50,6 +50,11 @@
           <% allAnimalsForFarmer.forEach(animal=>{ %>
 
           <div class="animal-card">
+            <img
+              src="images/<%=animal.imagename%>"
+              alt="Animal Picture"
+              width="100%"
+            />
             <h3><%= animal.name %> (<%= animal.animal_tag %>)</h3>
             <p><strong>Breed:</strong> <%= animal.breed %></p>
             <p>
@@ -65,7 +70,12 @@
             <h2>Animal Registration Form</h2>
             <button id="close">Close</button>
           </div>
-          <form id="animalForm" action="/new-animal" method="POST">
+          <form
+            id="animalForm"
+            action="/new-animal"
+            method="POST"
+            enctype="multipart/form-data"
+          >
             <div class="form-group">
               <label for="animal_tag"
                 >Animal Tag <span class="required">*</span></label
@@ -89,6 +99,16 @@
                 name="name"
                 maxlength="100"
                 required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="picture">Animal picture</label>
+              <input
+                type="file"
+                name="picture"
+                id="picture"
+                accept=".jpg,.jpeg,.png,.gif"
               />
             </div>
 

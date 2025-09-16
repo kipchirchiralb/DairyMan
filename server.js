@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const multer = require("multer");
+const upload = multer({ dest: "public/images/" });
 const app = express();
 const mysql = require("mysql");
 const dbConn = mysql.createConnection({
@@ -171,7 +173,7 @@ app.post("/add-milk-production", (req, res) => {
   });
 });
 
-app.post("/new-animal", (req, res) => {
+app.post("/new-animal", upload.single("picture") , (req, res) => {
   let { animal_tag, dob, purchase_date, breed, name, source, gender, status } =
     req.body;
   purchase_date.length == 0
@@ -179,7 +181,7 @@ app.post("/new-animal", (req, res) => {
     : (purchase_date = purchase_date);
   console.log(req.body);
 
-  const insertAnimalStatement = `INSERT INTO animal(animal_tag,name,dob,purchase_date,breed,status,source,gender,owner_id) VALUES("${animal_tag}","${name}","${dob}","${purchase_date}","${breed}","${status}","${source}","${gender}", ${req.session.farmer.farmer_id})`;
+  const insertAnimalStatement = `INSERT INTO animal(animal_tag,name,dob,purchase_date,breed,status,source,gender,owner_id, imagename) VALUES("${animal_tag}","${name}","${dob}","${purchase_date}","${breed}","${status}","${source}","${gender}", ${req.session.farmer.farmer_id}, "${req.file ? req.file.filename : ''}")`;
 
   dbConn.query(insertAnimalStatement, (sqlErr) => {
     if (sqlErr) {
